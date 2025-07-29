@@ -333,9 +333,9 @@ function visualizarCantico(pasta, cantico) {
     const extensao = cantico.split('.').pop().toLowerCase();
     
     if (extensao === 'pdf') {
-        fileViewer.src = `https://docs.google.com/viewer?url=${encodeURIComponent(githubUrl)}&embedded=true`;
+        fileViewer.innerHTML = `<iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(githubUrl)}&embedded=true" frameborder="0" style="width:100%; height:100%; border-radius:10px;"></iframe>`;
     } else if (extensao === 'jpeg' || extensao === 'jpg') {
-        fileViewer.src = githubUrl; // Carrega a imagem diretamente
+        fileViewer.innerHTML = `<img src="${githubUrl}" style="max-width:100%; max-height:100%; object-fit:contain;">`;
     }
     
     fileModal.classList.remove('hidden');
