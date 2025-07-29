@@ -175,44 +175,47 @@ const canticosData = {
 let ordemMissa = [];
 let quadrosRecolhidos = {};
 
-// Elementos DOM
+    // Elementos DOM
 let ordemMissaPanel;
 let ordemLista;
 let canticosContainer;
 let fileModal;
 let fileViewer;
 let modalTitle;
+let searchInput;
 
 // Inicialização
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function() {
     initializeElements();
     setupEventListeners();
     renderCanticosQuadros();
     loadOrdemMissa();
+    loadQuadrosState(); // Carrega o estado dos quadros (recolhido/expandido)
 });
 
 function initializeElements() {
-    ordemMissaPanel = document.getElementById('ordem-missa-panel');
-    ordemLista = document.getElementById('ordem-lista');
-    canticosContainer = document.querySelector('.canticos-container');
-    fileModal = document.getElementById('file-modal');
-    fileViewer = document.getElementById('file-viewer');
-    modalTitle = document.getElementById('modal-title');
+    ordemMissaPanel = document.getElementById("ordem-missa-panel");
+    ordemLista = document.getElementById("ordem-lista");
+    canticosContainer = document.querySelector(".canticos-container");
+    fileModal = document.getElementById("file-modal");
+    fileViewer = document.getElementById("file-viewer");
+    modalTitle = document.getElementById("modal-title");
+    searchInput = document.getElementById("search-input");
 }
 
 function setupEventListeners() {
     // Botão de toggle da ordem da missa
-    document.getElementById('ordem-missa-toggle').addEventListener('click', toggleOrdemMissa);
+    document.getElementById("ordem-missa-toggle").addEventListener("click", toggleOrdemMissa);
     
     // Botões de controle da ordem da missa
-    document.getElementById('salvar-ordem').addEventListener('click', salvarOrdemMissa);
-    document.getElementById('carregar-ordem').addEventListener('click', carregarOrdemMissa);
-    document.getElementById('limpar-ordem').addEventListener('click', limparOrdemMissa);
-    document.getElementById('fechar-ordem').addEventListener('click', fecharOrdemMissa);
+    document.getElementById("salvar-ordem").addEventListener("click", salvarOrdemMissa);
+    document.getElementById("carregar-ordem").addEventListener("click", carregarOrdemMissa);
+    document.getElementById("limpar-ordem").addEventListener("click", limparOrdemMissa);
+    document.getElementById("fechar-ordem").addEventListener("click", fecharOrdemMissa);
     
     // Modal
-    document.getElementById('close-modal').addEventListener('click', closeModal);
-    fileModal.addEventListener('click', function(e) {
+    document.getElementById("close-modal").addEventListener("click", closeModal);
+    fileModal.addEventListener("click", function(e) {
         if (e.target === fileModal) {
             closeModal();
         }
@@ -220,15 +223,29 @@ function setupEventListeners() {
     
     // Drag and drop na área de ordem da missa
     setupDropZone();
+
+    // Campo de pesquisa
+    searchInput.addEventListener("keyup", filterCanticos);
 }
 
-function renderCanticosQuadros() {
-    canticosContainer.innerHTML = '';
-    
+function renderCanticosQuadros(filterText = "") {
+    canticosContainer.innerHTML = "";
+    const lowerCaseFilter = filterText.toLowerCase();
+
     Object.keys(canticosData).forEach(pasta => {
-        const quadro = createCanticoQuadro(pasta, canticosData[pasta]);
-        canticosContainer.appendChild(quadro);
+        const filteredCanticos = canticosData[pasta].filter(cantico => 
+            formatarNomeCantico(cantico).toLowerCase().includes(lowerCaseFilter)
+        );
+
+        if (filteredCanticos.length > 0) {
+            const quadro = createCanticoQuadro(pasta, filteredCanticos);
+            canticosContainer.appendChild(quadro);
+        }
     });
+}
+
+function filterCanticos() {
+    renderCanticosQuadros(searchInput.value);
 }
 
 function createCanticoQuadro(pasta, canticos) {
@@ -318,7 +335,7 @@ function visualizarCantico(pasta, cantico) {
     if (extensao === 'pdf') {
         fileViewer.src = `https://docs.google.com/viewer?url=${encodeURIComponent(githubUrl)}&embedded=true`;
     } else if (extensao === 'jpeg' || extensao === 'jpg') {
-        fileViewer.src = `data:text/html,<html><body style="margin:0;padding:20px;background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh;"><img src="${githubUrl}" style="max-width:100%;max-height:100%;object-fit:contain;" alt="Cântico"></body></html>`;
+        fileViewer.src = githubUrl; // Carrega a imagem diretamente
     }
     
     fileModal.classList.remove('hidden');

@@ -480,3 +480,37 @@ body {
     background: rgba(255, 0, 0, 0.5);
 }
 
+
+
+/* Campo de Pesquisa */
+.search-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#search-input {
+    width: 80%;
+    max-width: 500px;
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: 2px solid #8A2BE2;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#search-input:focus {
+    border-color: #ffff00;
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.5);
+}
+
+
