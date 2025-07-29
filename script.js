@@ -235,7 +235,7 @@ function createCanticoQuadro(pasta, canticos) {
     const quadro = document.createElement('div');
     quadro.className = 'cantico-quadro glass-panel';
     
-    const isCollapsed = quadrosRecolhidos[pasta] || false;
+    const isCollapsed = quadrosRecolhidos[pasta] !== undefined ? quadrosRecolhidos[pasta] : true;
     
     quadro.innerHTML = `
         <div class="quadro-header" onclick="toggleQuadro('${pasta}')">
@@ -526,10 +526,12 @@ function showNotification(message) {
     }, 3000);
 }
 
-// Carregar estado dos quadros na inicialização
-document.addEventListener('DOMContentLoaded', function() {
-    loadQuadrosState();
-});
+    if (Object.keys(quadrosRecolhidos).length === 0) {
+        Object.keys(canticosData).forEach(pasta => {
+            quadrosRecolhidos[pasta] = true;
+        });
+        saveQuadrosState();
+    }
 
 // Adicionar suporte a touch para dispositivos móveis
 document.addEventListener('touchstart', function() {}, { passive: true });
