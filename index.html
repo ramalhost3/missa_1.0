@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cânticos de Missa - Organizador</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <h1>Cânticos de Missa</h1>
+        <p>Organizador de Cânticos para o Tempo Comum</p>
+        <button id="ordem-missa-toggle" class="ordem-toggle-btn">
+            <span>📋</span> Ordem da Missa
+        </button>
+    </header>
+
+    <main class="main-container">
+        <!-- Quadro Ordem da Missa (inicialmente oculto) -->
+        <div id="ordem-missa-panel" class="ordem-missa-panel glass-panel hidden">
+            <div class="panel-header">
+                <h2>Ordem da Missa</h2>
+                <div class="panel-controls">
+                    <button id="salvar-ordem" class="control-btn">💾 Salvar</button>
+                    <button id="carregar-ordem" class="control-btn">📂 Carregar</button>
+                    <button id="limpar-ordem" class="control-btn">🗑️ Limpar</button>
+                    <button id="fechar-ordem" class="control-btn close-btn">✕</button>
+                </div>
+            </div>
+            <div class="ordem-content">
+                <div id="ordem-lista" class="ordem-lista">
+                    <div class="drop-zone">
+                        <p>Arraste os cânticos aqui para montar a ordem da missa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Container dos quadros de cânticos -->
+        <div class="canticos-container">
+            <!-- Os quadros serão gerados dinamicamente pelo JavaScript -->
+        </div>
+    </main>
+
+    <!-- Modal para visualização de arquivos -->
+    <div id="file-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Visualizar Cântico</h3>
+                <button id="close-modal" class="control-btn close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="file-viewer" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
