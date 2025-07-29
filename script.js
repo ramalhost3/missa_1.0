@@ -332,18 +332,21 @@ function visualizarCantico(pasta, cantico) {
     
     const extensao = cantico.split('.').pop().toLowerCase();
     
+    console.log("URL do GitHub para o cântico:", githubUrl);
     if (extensao === 'pdf') {
         fileViewer.innerHTML = `<iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(githubUrl)}&embedded=true" frameborder="0" style="width:100%; height:100%; border-radius:10px;"></iframe>`;
     } else if (extensao === 'jpeg' || extensao === 'jpg') {
         fileViewer.innerHTML = `<img src="${githubUrl}" style="max-width:100%; max-height:100%; object-fit:contain;">`;
+    } else {
+        fileViewer.innerHTML = `<p>Formato de arquivo não suportado: ${extensao}</p>`;
     }
     
     fileModal.classList.remove('hidden');
 }
 
 function closeModal() {
-    fileModal.classList.add('hidden');
-    fileViewer.src = '';
+    fileModal.classList.add("hidden");
+    fileViewer.innerHTML = ""; // Limpa o conteúdo do div
 }
 
 function adicionarAOrdem(pasta, cantico) {
